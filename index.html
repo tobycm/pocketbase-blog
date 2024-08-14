@@ -7,17 +7,23 @@
     <title>Toby's Mini Blog</title>
   </head>
   <body>
-    <div id="app">
-      <h1>Toby's Mini Blog</h1>
+    <h1>Toby's Mini Blog</h1>
+    <div id="main">
       <p>I write random stuff</p>
+
+      <br />
+
+      <h2>Posts</h2>
+
+      <ul id="posts"></ul>
     </div>
 
-    <br />
+    <div id="post" hidden></div>
 
-    <h2>Posts</h2>
-
-    <ul id="posts"></ul>
-    <script type="module" src="/src/posts.ts"></script>
+    <div id="404" hidden>
+      <h1>404</h1>
+      <p>Page not found</p>
+    </div>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

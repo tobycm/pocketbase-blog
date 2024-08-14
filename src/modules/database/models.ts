@@ -4,7 +4,7 @@ export interface Post {
   title: string;
   body: string;
 
-  tags: string[];
+  tags: string; // Comma-separated list of tags
 }
 
 export type PBPost = Post & RecordModel;
