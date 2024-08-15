@@ -1,29 +1,14 @@
-import { ListResult, RecordListOptions } from "pocketbase";
+import { RecordListOptions } from "pocketbase";
+import pocketbase from ".";
 import Constants from "../constants";
 import { PBPost } from "./models";
 
-// export async function getPosts(options?: RecordListOptions & { page?: number; perPage?: number }) {
-//   return await pocketbase.collection<PBPost>("posts").getList(options?.page ?? 0, options?.perPage ?? 500, options);
-// }
-
-const postEndpoint = "/api/collections/posts";
-
 export async function getPosts(options?: RecordListOptions & { page?: number; perPage?: number }) {
-  const url = new URL(postEndpoint + "/records", Constants.POCKETBASE_URL);
-
-  for (const key in options) if (options[key]) url.searchParams.append(key, options[key]);
-
-  return (await (await fetch(url)).json()) as ListResult<PBPost>;
+  return await pocketbase.collection<PBPost>("posts").getList(options?.page ?? 0, options?.perPage ?? 500, options);
 }
 
-// export async function getPost(id: string) {
-//   return await pocketbase.collection<PBPost>("posts").getOne(id);
-// }
-
 export async function getPost(id: string) {
-  const url = new URL(postEndpoint + "/records/" + id, Constants.POCKETBASE_URL);
-
-  return (await (await fetch(url)).json()) as PBPost;
+  return await pocketbase.collection<PBPost>("posts").getOne(id);
 }
 
 const widthSizes = [128, 256, 512, 1024] as const;
