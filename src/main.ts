@@ -1,6 +1,6 @@
 import "@fontsource/ubuntu";
 
-import { getPost, getPosts } from "./modules/database/posts";
+import { getPost, getPosts, processPostBody } from "./modules/database/posts";
 import "./style.css";
 
 const path = window.location.pathname;
@@ -28,9 +28,9 @@ if (path == "/") {
         <h2 style="margin-bottom: 0">${post.title}</h2>
         <small>Posted on ${new Date(post.created).toLocaleDateString()} | Updated on ${new Date(post.updated).toLocaleDateString()}</small>
         <br>
-        ${post.body}
+        ${processPostBody(post, window)}
         <br>
-        <p>Tags: ${post.tags.replaceAll(", ", ",").replaceAll(",", ", ")}</p>
+        <p>Tags: ${post.tags.replaceAll(", ", ",").replaceAll(",", ", ") || "<i><small>No tags</small></i>"}</p>
     `;
     postElement.removeAttribute("hidden");
 

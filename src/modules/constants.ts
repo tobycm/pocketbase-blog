@@ -1,5 +1,3 @@
-const Constants = Object.freeze({
-  POCKETBASE_URL: "https://pb_blog.tobycm.dev",
-});
-
-export default Constants;
+export default class Constants {
+  static POCKETBASE_URL = "https://pb_blog.tobycm.dev";
+}
