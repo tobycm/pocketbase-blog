@@ -1,6 +1,5 @@
 import { RecordListOptions } from "pocketbase";
 import pocketbase from ".";
-import Constants from "../constants";
 import { PBPost } from "./models";
 
 export async function getPosts(options?: RecordListOptions & { page?: number; perPage?: number }) {
@@ -41,10 +40,10 @@ export function processPostBody(post: PBPost, window: Window): string {
     const [filename, size, rest] = image.split(":");
 
     if (!filename || !size) throw new Error(`Post body contains malformed #pb_image tag: ${image}`);
+    if (!post.images.includes(filename)) throw new Error(`Post body contains image not in images: ${filename}`);
 
     const imageWidth = getClosestWidthSize(window.innerWidth * (parseInt(size) / 100));
-    let imageUrl = `${Constants.POCKETBASE_URL}/api/files/${post.collectionId}/${post.id}/${filename}`;
-    if (imageWidth) imageUrl += `?thumb=${imageWidth}x0`;
+    const imageUrl = pocketbase.getFileUrl(post, filename, { thumb: imageWidth ? `${imageWidth}x0` : undefined });
 
     const imageElement = `<img src="${imageUrl}" width="${imageWidth}">`;
 
