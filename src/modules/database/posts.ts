@@ -19,6 +19,18 @@ function img(post: PBPost, filename: string, size: number) {
   return `<img srcset="${srcset(post, filename)}" sizes="${size}vw" src="${pocketbase.getFileUrl(post, filename)}" style="width: ${size}vw">`;
 }
 
+export function onImageClick(event: MouseEvent) {
+  const target = event.target as HTMLImageElement;
+
+  console.log("target", target);
+
+  const overlay = document.getElementById("overlay") as HTMLDivElement;
+
+  overlay.innerHTML = `<img src="${target.src}" style="max-width: 100%; max-height: 100%">`;
+
+  overlay.removeAttribute("hidden");
+}
+
 export function processPostBody(post: PBPost): string {
   let remainingBody = post.body;
   let processedBody = "";
@@ -36,7 +48,7 @@ export function processPostBody(post: PBPost): string {
     const image = parts.shift();
     if (!image) throw new Error("Post body contains malformed #pb_image tag");
 
-    console.log("image", image);
+    // console.log("image", image);
 
     const [filename, size, rest] = image.split(":");
 

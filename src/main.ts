@@ -1,6 +1,6 @@
 import "@fontsource/ubuntu";
 
-import { getPost, getPosts, processPostBody } from "./modules/database/posts";
+import { getPost, getPosts, onImageClick, processPostBody } from "./modules/database/posts";
 import "./style.css";
 
 const path = window.location.pathname;
@@ -35,8 +35,13 @@ if (path == "/") {
     postElement.removeAttribute("hidden");
 
     document.title = post.title;
+
+    postElement.querySelectorAll("img").forEach((img) => img.addEventListener("click", onImageClick));
   });
 } else {
   (document.getElementById("404") as HTMLDivElement).removeAttribute("hidden");
   document.title = "404 Not Found";
 }
+
+const overlay = document.getElementById("overlay") as HTMLDivElement;
+overlay.addEventListener("click", () => overlay.setAttribute("hidden", ""));
