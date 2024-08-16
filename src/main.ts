@@ -42,6 +42,3 @@ if (path == "/") {
   (document.getElementById("404") as HTMLDivElement).removeAttribute("hidden");
   document.title = "404 Not Found";
 }
-
-const overlay = document.getElementById("overlay") as HTMLDivElement;
-overlay.addEventListener("click", () => overlay.setAttribute("hidden", ""));

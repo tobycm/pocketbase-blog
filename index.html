@@ -12,9 +12,18 @@
     <meta property="og:url" content="https://blog.tobycm.dev/" />
     <meta property="og:site_name" content="Toby's Mini Blog" />
 
+    <link rel="stylesheet" id="theme" href="/src/light.css" data-theme="light" />
+    <link rel="preload" href="/src/dark.css" as="style" />
+
+    <script type="module" async src="/src/theme.ts"></script>
+
     <title>Toby's Mini Blog</title>
   </head>
   <body>
+    <div style="float: right">
+      <button id="themeButton">🔆</button>
+    </div>
+
     <h1>Toby's Mini Blog</h1>
     <div id="main">
       <p>I write random stuff</p>
@@ -27,6 +36,7 @@
     </div>
 
     <div id="overlay" hidden></div>
+    <script type="module" async src="/src/overlay.ts"></script>
 
     <div id="post" hidden></div>
 
@@ -35,6 +45,6 @@
       <p>Page not found</p>
     </div>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" async src="/src/main.ts"></script>
   </body>
 </html>
