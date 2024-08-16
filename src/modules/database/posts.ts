@@ -11,13 +11,15 @@ export async function getPost(id: string) {
 }
 
 const widthSizes = [128, 256, 512, 1024] as const;
-function getClosestWidthSize(width: number) {
-  // get one bigger than width
-  for (const size of widthSizes) if (size > width) return size;
-  return undefined;
+function srcset(post: PBPost, filename: string) {
+  return widthSizes.map((size) => `${pocketbase.getFileUrl(post, filename, { thumb: `${size}x0` })} ${size}w`).join(", ");
 }
 
-export function processPostBody(post: PBPost, window: Window): string {
+function img(post: PBPost, filename: string, size: number) {
+  return `<img srcset="${srcset(post, filename)}" sizes="${size}vw" src="${pocketbase.getFileUrl(post, filename)}" style="width: ${size}vw">`;
+}
+
+export function processPostBody(post: PBPost): string {
   let remainingBody = post.body;
   let processedBody = "";
 
@@ -29,8 +31,7 @@ export function processPostBody(post: PBPost, window: Window): string {
       break;
     }
 
-    const front = parts.shift(); // Text before the first #pb_image tag
-    processedBody += front;
+    processedBody += parts.shift();
 
     const image = parts.shift();
     if (!image) throw new Error("Post body contains malformed #pb_image tag");
@@ -42,12 +43,7 @@ export function processPostBody(post: PBPost, window: Window): string {
     if (!filename || !size) throw new Error(`Post body contains malformed #pb_image tag: ${image}`);
     if (!post.images.includes(filename)) throw new Error(`Post body contains image not in images: ${filename}`);
 
-    const imageWidth = getClosestWidthSize(window.innerWidth * (parseInt(size) / 100));
-    const imageUrl = pocketbase.getFileUrl(post, filename, { thumb: imageWidth ? `${imageWidth}x0` : undefined });
-
-    const imageElement = `<img src="${imageUrl}" width="${imageWidth}">`;
-
-    processedBody += imageElement;
+    processedBody += img(post, filename, parseInt(size));
     remainingBody = [rest, ...parts].join("#pb_image:");
   }
 

@@ -10,7 +10,7 @@ if (path != "/") (document.getElementById("main") as HTMLDivElement).setAttribut
 if (path == "/") {
   const postsElement = document.getElementById("posts") as HTMLUListElement;
 
-  getPosts({ sort: "-created" }).then((posts) =>
+  getPosts({ sort: "-created", fields: "id,title,created" }).then((posts) =>
     posts.items.forEach((post) => {
       const postItem = document.createElement("li");
       postItem.innerHTML = `<a href="/post/${post.id}">${post.title}</a> - ${new Date(post.created).toLocaleDateString()}`;
@@ -28,7 +28,7 @@ if (path == "/") {
         <h2 style="margin-bottom: 0">${post.title}</h2>
         <small>Posted on ${new Date(post.created).toLocaleDateString()} | Updated on ${new Date(post.updated).toLocaleDateString()}</small>
         <br>
-        ${processPostBody(post, window)}
+        ${processPostBody(post)}
         <br>
         <p>Tags: ${post.tags.replaceAll(", ", ",").replaceAll(",", ", ") || "<i><small>No tags</small></i>"}</p>
     `;
