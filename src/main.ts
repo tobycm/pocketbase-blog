@@ -1,24 +1,31 @@
 import "@fontsource/ubuntu";
 
+import { ListResult } from "pocketbase";
+import { PBPost } from "./modules/database/models";
 import { getPost, getPosts, onImageClick, processPostBody } from "./modules/database/posts";
+import { renderPosts } from "./modules/utils";
+import { search } from "./search";
 import "./style.css";
 
-const path = window.location.pathname;
+const url = new URL(window.location.href);
 
-if (path != "/") (document.getElementById("main") as HTMLDivElement).setAttribute("hidden", "");
+if (url.pathname != "/") (document.getElementById("main") as HTMLDivElement).setAttribute("hidden", "");
 
-if (path == "/") {
-  const postsElement = document.getElementById("posts") as HTMLUListElement;
+export let posts: ListResult<PBPost>;
 
-  getPosts({ sort: "-created", fields: "id,title,created" }).then((posts) =>
-    posts.items.forEach((post) => {
-      const postItem = document.createElement("li");
-      postItem.innerHTML = `<a href="/post/${post.id}">${post.title}</a> - ${new Date(post.created).toLocaleDateString()}`;
-      postsElement.appendChild(postItem);
-    })
-  );
-} else if (path.startsWith("/post/")) {
-  const id = path.split("/")[2].split("?")[0];
+if (url.pathname == "/") {
+  getPosts({ sort: "-created", fields: "id,title,created,tags" }).then((p) => {
+    posts = p;
+    renderPosts(p.items);
+
+    if (url.searchParams.has("q")) {
+      const searchElement = document.getElementById("search") as HTMLInputElement;
+      searchElement.value = url.searchParams.get("q")!;
+      search(searchElement.value);
+    }
+  });
+} else if (url.pathname.startsWith("/post/")) {
+  const id = url.pathname.split("/")[2].split("?")[0];
 
   if (id.length != 15) window.location.href = "/404";
 
