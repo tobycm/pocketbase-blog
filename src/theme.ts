@@ -2,10 +2,9 @@ export function setTheme(theme?: string | null) {
   const css = document.getElementById("theme") as HTMLLinkElement;
 
   // no theme? toggle
-  if (!theme) theme = css.href.endsWith("light.css") ? "/src/dark.css" : "/src/light.css";
+  if (!theme) theme = css.href.endsWith("light.css") ? "/themes/dark.css" : "/themes/light.css";
 
   css.href = theme;
-  css.setAttribute("data-theme", theme.split(".")[0].split("/").pop()!);
 
   console.log(css);
 

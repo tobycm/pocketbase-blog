@@ -12,8 +12,10 @@
     <meta property="og:url" content="https://blog.tobycm.dev/" />
     <meta property="og:site_name" content="Toby's Mini Blog" />
 
-    <link rel="stylesheet" id="theme" href="/src/light.css" data-theme="light" />
-    <link rel="preload" href="/src/dark.css" as="style" />
+    <link rel="stylesheet" href="/src/post.css" />
+
+    <link rel="stylesheet" id="theme" href="/themes/light.css" />
+    <link rel="prefetch" href="/themes/dark.css" as="style" />
 
     <script type="module" async src="/src/theme.ts"></script>
 
@@ -28,6 +30,7 @@
     <div id="main">
       <p>I write random stuff</p>
 
+      <hr />
       <br />
 
       <label for="search">Search: </label>
@@ -35,9 +38,9 @@
 
       <script type="module" async src="/src/search.ts"></script>
 
-      <h2>Posts</h2>
+      <h2 style="margin-bottom: 0">Posts</h2>
 
-      <ul id="posts"></ul>
+      <ul style="margin-top: 1vh" id="posts"></ul>
     </div>
 
     <div id="overlay" hidden></div>
