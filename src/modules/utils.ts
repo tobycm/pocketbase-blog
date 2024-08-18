@@ -15,3 +15,16 @@ export function renderPosts(posts: PBPost[]) {
     postsElement.appendChild(postItem);
   });
 }
+
+export function loading(element: HTMLElement, interval: number = 1000, length: number = 3): ReturnType<typeof setInterval> {
+  let i = 0;
+
+  return setInterval(() => {
+    element.textContent += ".";
+    i++;
+    if (i > length) {
+      element.textContent = element.textContent!.slice(0, -length);
+      i = 0;
+    }
+  }, interval);
+}
