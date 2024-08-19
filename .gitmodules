@@ -1,0 +1,3 @@
+[submodule "blog-writer/server/modules/towebp"]
+	path = blog-writer/server/modules/towebp
+	url = https://github.com/tobycm/towebp
