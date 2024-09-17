@@ -17,7 +17,9 @@ let theme = localStorage.getItem("theme");
 
 const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
-if (!theme && prefersDarkScheme.matches) theme = "dark.css";
+if (!theme && prefersDarkScheme.matches) theme = "/themes/dark.css";
+
+console.log(theme);
 
 setTheme(theme);
 
